@@ -1,0 +1,27 @@
+{
+  "name": "Tribal Wikipedia Voice Reader",
+  "short_name": "TribalWiki",
+  "description": "Experience Wikipedia articles in Sanskrit, Nepali, and Sindhi with AI-powered summaries and voice narration",
+  "start_url": "/tribal-wiki-reader/frontend/",
+  "display": "standalone",
+  "background_color": "#14b8a6",
+  "theme_color": "#0d9488",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2314b8a6'/%3E%3Cpath d='M35 40 L65 40 L50 65 Z' fill='white'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2314b8a6'/%3E%3Cpath d='M35 40 L65 40 L50 65 Z' fill='white'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["education", "accessibility", "multimedia"],
+  "lang": "en",
+  "scope": "/tribal-wiki-reader/frontend/",
+  "prefer_related_applications": false
+}
+

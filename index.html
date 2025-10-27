@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tribal Wikipedia Voice Reader</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d9488">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="TribalWiki">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2314b8a6'/%3E%3Cpath d='M35 40 L65 40 L50 65 Z' fill='white'/%3E%3C/svg%3E">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-microphone-alt"></i>
+        <h1>Tribal Wikipedia Voice Reader</h1>
+                </div>
+                <p class="subtitle">Experience Wikipedia articles in Sanskrit, Nepali, and Sindhi with AI-powered summaries and voice narration</p>
+                <p class="auth-notice" id="authNotice" style="display: block; color: #dc2626; font-weight: 500; margin-top: 0.5rem;">Please login or register to access the application.</p>
+                
+                <!-- Authentication Section -->
+                <div class="auth-section" id="authSection">
+                    <div class="auth-buttons" id="authButtons">
+                        <button class="auth-btn" id="loginBtn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </button>
+                        <button class="auth-btn" id="registerBtn">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Register</span>
+                        </button>
+                    </div>
+                    <div class="user-info" id="userInfo" style="display: none;">
+                        <span class="welcome-text">Welcome, <span id="username"></span>!</span>
+                        <button class="auth-btn" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content" id="mainContent" style="display: none;">
+            <div class="search-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-search"></i> Search Article</h2>
+                </div>
+
+                <form id="articleForm" class="search-form">
+                    <div class="input-group">
+                        <label for="articleTitle"><i class="fas fa-file-alt"></i> Article Title</label>
+                        <div class="input-with-voice">
+                            <input type="text" id="articleTitle" placeholder="Enter Wikipedia article title (e.g., India, Nepal, Sanskrit)" required>
+                            <button type="button" id="voiceBtn" class="voice-btn" aria-pressed="false" title="Speak article title">
+                                <i class="fas fa-microphone"></i>
+                                <span>Voice</span>
+                            </button>
+                        </div>
+                        <span id="voiceStatus" aria-live="polite" class="voice-status visually-hidden"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="language"><i class="fas fa-globe"></i> Language</label>
+                        <select id="language" class="language-select">
+                            <option value="sanskrit">🇮🇳 Sanskrit</option>
+                            <option value="nepali">🇳🇵 Nepali</option>
+                            <option value="sindhi">🇵🇰 Sindhi</option>
+                            <option value="hindi">🇮🇳 Hindi</option>
+                            <option value="bengali">🇧🇩 Bengali</option>
+                            <option value="tamil">🇮🇳 Tamil</option>
+                            <option value="telugu">🇮🇳 Telugu</option>
+                            <option value="marathi">🇮🇳 Marathi</option>
+                            <option value="gujarati">🇮🇳 Gujarati</option>
+                            <option value="kannada">🇮🇳 Kannada</option>
+                            <option value="malayalam">🇮🇳 Malayalam</option>
+                            <option value="punjabi">🇮🇳 Punjabi</option>
+                            <option value="odia">🇮🇳 Odia</option>
+                            <option value="assamese">🇮🇳 Assamese</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="summaryLength"><i class="fas fa-ruler"></i> Summary Length</label>
+                        <select id="summaryLength" class="language-select">
+                            <option value="short">Short (25-75 words)</option>
+                            <option value="medium" selected>Medium (50-150 words)</option>
+                            <option value="long">Long (100-250 words)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="voiceType"><i class="fas fa-volume-up"></i> Voice Type</label>
+                        <select id="voiceType" class="language-select">
+                            <option value="default">Default Voice</option>
+                            <option value="slow">Slow Speech</option>
+                            <option value="uk">British English</option>
+                            <option value="au">Australian English</option>
+                            <option value="indian">Indian English</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-magic"></i>
+                        <span>Get AI Summary & Listen</span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="loading" class="loading-card" style="display: none;">
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <h3>Processing Article...</h3>
+                    <p>Fetching Wikipedia content and generating AI summary</p>
+                </div>
+            </div>
+
+            <div id="summarySection" class="summary-card" style="display: none;">
+                <div class="card-header">
+                    <h2><i class="fas fa-file-text"></i> AI Summary</h2>
+                </div>
+                <div class="summary-content">
+                    <div class="summary-text" id="summaryText"></div>
+                    <div class="audio-controls">
+                        <button id="playAudio" class="play-btn">
+                            <i class="fas fa-play"></i>
+                            <span>Play Audio</span>
+                        </button>
+                        <button id="downloadAudio" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            <span>Download</span>
+                        </button>
+                        <button id="bookmarkBtn" class="bookmark-btn">
+                            <i class="fas fa-bookmark"></i>
+                            <span>Bookmark</span>
+                </button>
+                        <audio id="audioPlayer" controls style="display: none;"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" class="error-card" style="display: none;"></div>
+
+            <div class="history-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-history"></i> Recent Searches</h2>
+                    <button type="button" id="clearHistory" class="clear-btn">
+                        <i class="fas fa-trash"></i>
+                        Clear
+                    </button>
+                </div>
+                <div class="history-content">
+                    <ul id="historyList" aria-live="polite"></ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Authentication Modals -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-sign-in-alt"></i> Login</h3>
+                <span class="close" id="closeLoginModal">&times;</span>
+            </div>
+            <form id="loginForm" class="modal-form">
+                <div class="input-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="input-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Register</h3>
+                <span class="close" id="closeRegisterModal">&times;</span>
+            </div>
+            <form id="registerForm" class="modal-form">
+                <div class="input-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" required>
+                </div>
+                <div class="input-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="input-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cog"></i> Settings</h3>
+                <span class="close" id="closeSettingsModal">&times;</span>
+            </div>
+            <div class="modal-form">
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="darkModeToggle">
+                        Dark Mode
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label for="defaultLanguage">Default Language</label>
+                    <select id="defaultLanguage">
+                <option value="sanskrit">Sanskrit</option>
+                <option value="nepali">Nepali</option>
+                <option value="sindhi">Sindhi</option>
+                        <option value="hindi">Hindi</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="defaultVoice">Default Voice</label>
+                    <select id="defaultVoice">
+                        <option value="default">Default Voice</option>
+                        <option value="slow">Slow Speech</option>
+                        <option value="uk">British English</option>
+                        <option value="au">Australian English</option>
+                        <option value="indian">Indian English</option>
+            </select>
+        </div>
+                <button type="button" class="submit-btn" id="saveSettings">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
