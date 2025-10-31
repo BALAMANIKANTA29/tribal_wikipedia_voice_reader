@@ -5,13 +5,23 @@ A Progressive Web App (PWA) that brings Wikipedia articles to life with AI-power
 ## 🌟 Features
 
 - **Multi-Language Support**: Access Wikipedia content in Sanskrit, Nepali, Sindhi, Hindi, Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada, Malayalam, Punjabi, Odia, and Assamese
-- **AI-Powered Summarization**: Generate intelligent summaries using advanced transformer models (csebuetnlp/mT5_multilingual_XLSum)
+- **AI-Powered Summarization**: Generate intelligent summaries using advanced transformer models ([csebuetnlp/mT5_multilingual_XLSum](https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum))
 - **Text-to-Speech**: Listen to summaries with multiple voice options (default, slow, UK, Australian, Indian English)
 - **User Authentication**: Secure login/registration system with JWT tokens
 - **Personal Dashboard**: Save bookmarks, view search history, and customize preferences
 - **Voice Input**: Use speech recognition to search for articles
 - **Progressive Web App**: Install as a native app with offline capabilities
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
+
+## 🔗 Links
+
+- **🌐 Live Demo**: [http://localhost](http://localhost) (Frontend)
+- **🔧 Backend API**: [http://localhost:5000](http://localhost:5000) (API Documentation)
+- **📚 API Health Check**: [http://localhost:5000/health](http://localhost:5000/health)
+- **📖 Wikipedia API**: [https://pypi.org/project/wikipedia-api/](https://pypi.org/project/wikipedia-api/)
+- **🤖 Transformers**: [https://huggingface.co/docs/transformers/index](https://huggingface.co/docs/transformers/index)
+- **🔊 gTTS**: [https://pypi.org/project/gTTS/](https://pypi.org/project/gTTS/)
+- **🎨 Font Awesome**: [https://fontawesome.com/](https://fontawesome.com/)
 
 ## 🛠 Tech Stack
 
@@ -36,28 +46,70 @@ A Progressive Web App (PWA) that brings Wikipedia articles to life with AI-power
 - pip (Python package manager)
 - Modern web browser with Web Speech API support
 
-## 🚀 Installation
+## 🚀 Installation & Deployment
 
-1. **Clone the repository** (if applicable) or navigate to the project directory:
+### Option 1: Quick Start with Docker (Recommended)
+
+1. **Prerequisites**: Install Docker and Docker Compose on your system
+
+2. **Clone and navigate to the project**:
    ```bash
+   git clone <repository-url>
    cd tribal-wiki-reader
    ```
 
-2. **Install Python dependencies**:
+3. **Configure environment**:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your production secrets
+   ```
+
+4. **Deploy with Docker Compose**:
+   ```bash
+   # Using the deployment script
+   ./deploy.sh
+
+   # Or manually
+   docker-compose up --build -d
+   ```
+
+5. **Access the application**:
+   - Frontend: http://localhost
+   - Backend API: http://localhost:5000
+
+### Option 2: Manual Installation
+
+1. **Install Python dependencies**:
    ```bash
    cd backend
    pip install -r requirements.txt
    ```
 
-3. **Start the Flask backend**:
+2. **Start the Flask backend**:
    ```bash
    python app.py
    ```
    The server will run on `http://localhost:5000`
 
-4. **Open the frontend**:
+3. **Open the frontend**:
    - Open `frontend/index.html` in your web browser, or
    - Serve the frontend directory with a local server (recommended for PWA features)
+
+### Option 3: Production Deployment
+
+For production deployment on cloud platforms:
+
+- **Heroku**: Use the provided `Dockerfile` and set environment variables
+- **AWS/GCP/Azure**: Use Docker containers or deploy backend separately
+- **Vercel/Netlify**: Deploy frontend statically, backend as serverless functions
+
+**Environment Variables** (copy from `.env.example`):
+```bash
+SECRET_KEY=your-production-secret-key
+JWT_SECRET_KEY=your-jwt-production-secret-key
+SUMMARY_MODE=simple  # Use simple mode for production
+PORT=5000
+```
 
 ## 📖 Usage
 
