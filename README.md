@@ -146,6 +146,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions or issues, please open an issue on the GitHub repository or contact the development team.
 
----
+---pandunaradala@gmail.com
 
 **Experience the richness of Indian languages through the power of AI and voice technology! 🇮🇳**
